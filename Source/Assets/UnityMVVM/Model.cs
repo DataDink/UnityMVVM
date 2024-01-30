@@ -28,13 +28,12 @@ namespace UnityMVVM
         var index = position; value = default;
         var negate = text[index] == '-';
         if (negate) { index++; Trim(ref text, ref index); }
-        var start = index;
         while (index < text.Length && char.IsDigit(text[index])) { index++; }
         if (index < text.Length && text[index] == '.') { index++; }
         while (index < text.Length && char.IsDigit(text[index])) { index++; }
-        if (index == start) { return false; }
+        if (index == position) { return false; }
+        value = decimal.Parse(text.Substring(position, index-position));
         position = index;
-        value = decimal.Parse(text.Substring(start, position++ - start)) * (negate ? -1 : 1);
         return true;
       }
       private static readonly Dictionary<string, string> Unescapes = new() {
