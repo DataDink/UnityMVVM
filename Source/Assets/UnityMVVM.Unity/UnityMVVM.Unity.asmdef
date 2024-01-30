@@ -1,0 +1,16 @@
+{
+    "name": "UnityMVVM.Unity",
+    "rootNamespace": "UnityMVVM.Unity",
+    "references": [
+        "GUID:32cf10a22c38d438ea38029acd86eac3"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
