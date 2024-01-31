@@ -16,13 +16,15 @@ namespace UnityMVVM
 
     protected override IEnumerable<Binding> Populate(object data)
     {
-      var prefab = Prefab.Select(data) as string;
-      if (prefab == null) { return Array.Empty<Binding>(); }
+      data = string.IsNullOrEmpty(Source) ? data : Source.Select(data);
       var values = data is Model.Set array ? array.ToArray() : new[] { data };
       for (var i = 0; i < values.Length; i++) {
+        var value = values[i];
+        var prefab = Prefab.Select(value).ToString();
+        if (prefab == null) { continue; }
         var existing = _children.ElementAtOrDefault(i);
         var child = existing?.Prefab == prefab ? existing : Instantiate(Resources.Load<GameObject>(prefab), transform).AddComponent<Child>();
-        if (child != existing && existing != null) { Destroy(existing); }
+        if (child != existing && existing != null) { Destroy(existing.gameObject); }
         child.Prefab = prefab;
         if (i < _children.Count) { _children[i] = child; } else { _children.Add(child); }
       }
@@ -30,7 +32,7 @@ namespace UnityMVVM
         var extra = _children.Count - values.Length;
         var trash = _children.GetRange(values.Length, extra);
         _children.RemoveRange(values.Length, extra);
-        foreach (var child in trash) { Destroy(child); }
+        foreach (var child in trash) { Destroy(child.gameObject); }
       }
       var scope = _children.SelectMany(child => child.PopulateChild(values[_children.IndexOf(child)]));
       return scope.ToArray();

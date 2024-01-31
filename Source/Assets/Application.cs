@@ -16,7 +16,7 @@ public class Application : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (DateTime.Now < LastUpdate.AddSeconds(5)) { return; }
+        if (DateTime.Now < LastUpdate.AddSeconds(1)) { return; }
         LastUpdate = DateTime.Now;
         try {
           var json = Resources.Load<TextAsset>("data").text;
