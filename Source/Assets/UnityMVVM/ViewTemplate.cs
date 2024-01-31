@@ -16,14 +16,15 @@ namespace UnityMVVM
 
     protected override IEnumerable<Binding> Populate(object data)
     {
-      var prefab = Prefab.Select(data).ToString();
+      var prefab = Prefab.Select(data) as string;
+      if (prefab == null) { return Array.Empty<Binding>(); }
       var values = data is Model.Set array ? array.ToArray() : new[] { data };
       for (var i = 0; i < values.Length; i++) {
         var existing = _children.ElementAtOrDefault(i);
         var child = existing?.Prefab == prefab ? existing : Instantiate(Resources.Load<GameObject>(prefab), transform).AddComponent<Child>();
         if (child != existing && existing != null) { Destroy(existing); }
         child.Prefab = prefab;
-        if (i <= _children.Count) { _children[i] = child; } else { _children.Add(child); }
+        if (i < _children.Count) { _children[i] = child; } else { _children.Add(child); }
       }
       if (_children.Count > values.Length) {
         var extra = _children.Count - values.Length;

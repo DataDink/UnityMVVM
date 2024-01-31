@@ -19,7 +19,7 @@ public class Application : MonoBehaviour
         if (DateTime.Now < LastUpdate.AddSeconds(5)) { return; }
         LastUpdate = DateTime.Now;
         try {
-          var json = Resources.Load<TextAsset>("data.json").text;
+          var json = Resources.Load<TextAsset>("data").text;
           var model = Model.Parser.Parse(json);
           var view = GetComponent<View>();
           view.Bind(model);
