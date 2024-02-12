@@ -43,7 +43,7 @@ namespace UnityMVVM.Base
         foreach (var binding in notme) { binding.Bind(model); } 
         performanceCache.Remove(node);
       }
-      foreach (var child in transform.Cast<Transform>()) { ViewBind(view, model, child, performanceCache); } 
+      foreach (var child in node.transform.Cast<Transform>().ToArray()) { ViewBind(view, model, child, performanceCache); } 
     }
   }
 }
