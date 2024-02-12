@@ -34,6 +34,7 @@ namespace UnityMVVM.Base
     /// </remarks>
     protected virtual void ViewBind(View view, object model, Transform node, Dictionary<Transform, Binding[]> performanceCache = null)
     {
+      // TODO: Performance pass - Find a way to cache gameobject hierarchy and stay in sync with fewer calls to GetComponentsInChildren
       if ((performanceCache??=GetComponentsInChildren<Binding>(includeInactive: true).GroupBy(b => b?.transform).ToDictionary(g => g.Key, g => g.ToArray()))
         .TryGetValue(node, out var bindings)) 
       { 
