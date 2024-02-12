@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5572016175604193106}
-  - component: {fileID: 2807779869687504259}
   m_Layer: 0
   m_Name: Plant
   m_TagString: Untagged
@@ -33,39 +32,6 @@ Transform:
   - {fileID: 4989664345679448452}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2807779869687504259
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1511363965728158961}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb4aac1e0d81148269fadf3a3552380a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position:
-    X:
-      _path: pos.x
-    Y:
-      _path: pos.y
-    Z:
-      _path: pos.z
-  Rotation:
-    X:
-      _path: rot.x
-    Y:
-      _path: rot.y
-    Z:
-      _path: rot.z
-  Scale:
-    X:
-      _path: sca.x
-    Y:
-      _path: sca.y
-    Z:
-      _path: sca.z
 --- !u!1001 &4806572479941881455
 PrefabInstance:
   m_ObjectHideFlags: 0

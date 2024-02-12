@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6790885091602028090}
-  - component: {fileID: 1091874392446762290}
+  - component: {fileID: 3813782678348805573}
   m_Layer: 0
   m_Name: Furniture
   m_TagString: Untagged
@@ -32,7 +32,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2834171344103449751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1091874392446762290
+--- !u!114 &3813782678348805573
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -41,13 +41,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 835801805113077336}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e73a589be4ca843ccb7b8cf2b937ecd4, type: 3}
+  m_Script: {fileID: 11500000, guid: 043bfcf0641734de1802243d927ba800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Name:
+    Path: Model
   Source:
-    _path: Contents
-  Prefab:
-    _path: Model
+    Path: Contents
 --- !u!1 &5286435184962187135
 GameObject:
   m_ObjectHideFlags: 0

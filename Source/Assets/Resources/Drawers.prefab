@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5797188974114111145}
+  - component: {fileID: 9030481074749667126}
   m_Layer: 0
   m_Name: Items
   m_TagString: Untagged
@@ -31,6 +32,22 @@ Transform:
   m_Children: []
   m_Father: {fileID: 3056946831548725906}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &9030481074749667126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5726445522609353359}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 043bfcf0641734de1802243d927ba800, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Name:
+    Path: Model
+  Source:
+    Path: Contents
 --- !u!1 &6422035474444026537
 GameObject:
   m_ObjectHideFlags: 0
@@ -40,7 +57,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3056946831548725906}
-  - component: {fileID: 649618265176626066}
   m_Layer: 0
   m_Name: Drawers
   m_TagString: Untagged
@@ -65,39 +81,6 @@ Transform:
   - {fileID: 5797188974114111145}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &649618265176626066
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6422035474444026537}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fb4aac1e0d81148269fadf3a3552380a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Position:
-    X:
-      _path: pos.x
-    Y:
-      _path: pos.y
-    Z:
-      _path: pos.z
-  Rotation:
-    X:
-      _path: rot.x
-    Y:
-      _path: rot.y
-    Z:
-      _path: rot.z
-  Scale:
-    X:
-      _path: sca.x
-    Y:
-      _path: sca.y
-    Z:
-      _path: sca.z
 --- !u!1001 &4843022261407983891
 PrefabInstance:
   m_ObjectHideFlags: 0
