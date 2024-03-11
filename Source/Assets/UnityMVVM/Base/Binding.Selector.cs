@@ -40,7 +40,7 @@ namespace UnityMVVM.Base
       /// <summary>
       /// The value that will be cached by Unity.
       /// </summary>
-      [SerializeField] private string Path;
+      [SerializeField] private string Value;
       /// <summary> 
       /// The number of members in this <see cref="Selector" />.
       /// </summary>
@@ -81,7 +81,7 @@ namespace UnityMVVM.Base
       ///  var path = selector.ToArray(); // ["foo", "bar", "baz"]
       ///  </code>
       /// </example>
-      public Selector(string path) { Path = path ?? ""; }
+      public Selector(string path) { Value = path ?? ""; }
       /// <summary>
       /// Creates a new <see cref="Selector" /> from an array of member names.
       /// </summary>
@@ -92,7 +92,7 @@ namespace UnityMVVM.Base
       ///  var path = selector.ToString(); // "foo.bar.baz"
       ///  </code>
       /// </example>
-      public Selector(string[] path) { Path = string.Join(Delimiter, (path ?? new string[0]).Select(v => v ?? "").ToArray()); }
+      public Selector(string[] path) { Value = string.Join(Delimiter, (path ?? new string[0]).Select(v => v ?? "").ToArray()); }
       /// <summary>
       /// The delimited <see cref="string" /> representation of this <see cref="Selector" />.
       /// </summary>
@@ -102,7 +102,7 @@ namespace UnityMVVM.Base
       ///  var path = selector.ToString(); // "foo.bar.baz"
       ///  </code>
       /// </example>
-      public override string ToString() => Path;
+      public override string ToString() => Value;
       /// <summary>
       /// The array of member names of this <see cref="Selector" />.
       /// </summary>
@@ -112,7 +112,7 @@ namespace UnityMVVM.Base
       ///  var path = selector.ToArray(); // ["foo", "bar", "baz"]
       ///  </code>
       /// </example>
-      public string[] ToArray() => Path.Split(Delimiter);
+      public string[] ToArray() => Value.Split(Delimiter);
 
       public static implicit operator Selector(string value) => new(value);
       public static implicit operator Selector(string[] value) => new(value);
