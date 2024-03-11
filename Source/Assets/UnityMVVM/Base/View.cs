@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
@@ -8,43 +9,84 @@ namespace UnityMVVM.Base
   /// A common base that defines the standard interfacing and functionality for all Unity view-bindings.
   /// </summary>
   /// <remarks>
-  /// <para>A <see cref="View" /> is a binding that (re)scopes a <see cref="GameObject" /> and all of its descendants.</para>
+  /// <para>A <see cref="View" /> is a binding that is responsible for managing a scope of descendant <see cref="Binding" />s.</para>
   /// <para>NOTE: Only one view should be attached to a single <see cref="GameObject" />.</para>
   /// </remarks>
-  public abstract class View : Binding
+  /// <example>
+  /// <code>
+  /// public class MyView : View
+  /// {
+  ///   [SerializeField] public Selector Binding;
+  ///   public override void Bind(object model) => base.Bind(Binding.Select(model));
+  /// }
+  /// var view = gameObject.AddComponent<MyView>();
+  /// view.ModelSelector = "accounts.active.profile";
+  /// view.Bind(application);
+  /// </code> 
+  /// </example>
+  public abstract class View : Binding, IEnumerable<Binding>
   {
     /// <summary>
-    /// When overridden, selects the model to be bound to this view from the given model structure.
+    /// An established scope of <see cref="Binding" />s this view is responsible for.
     /// </summary>
-    protected virtual object Select(object model) => model;
-    /// <inheritdoc />
-    /// <remarks>
-    ///   NOTE: A <see cref="View" /> binding a descendant <see cref="View" /> will not call this method for performance reasons.
-    /// </remarks>
-    public override void Bind(object model) => ViewBind(this, Select(model), transform);
+    private Binding[] _scope = new Binding[0];
     /// <summary>
-    /// Traverses and executes descendant bindings.
+    /// The established ancestor view.
+    /// </ summary>
+    private View _parent;
+    /// <summary>
+    /// The established ancestor view.
+    /// </ summary>
+    public View Parent => _parent;
+    /// <inheritdoc />
+    public override void Bind(object model) { foreach (var binding in _scope) { binding.Bind(model); } }
+    /// <inheritdoc />
+    public IEnumerator<Binding> GetEnumerator() => _scope.AsEnumerable().GetEnumerator();
+    /// <inheritdoc />
+    IEnumerator IEnumerable.GetEnumerator() => _scope.GetEnumerator();
+    /// <summary>
+    /// Triggers view management tasks.
     /// </summary>
-    /// <param name="view">The owning view for the current binding scope.</param>
-    /// <param name="model">The current model structure being bound</param>
-    /// <param name="node">The node being traversed.</param>
-    /// <param name="performanceCache">A performance cache containing a pool of bindings to be removed when they are handled</param>
     /// <remarks>
-    ///   NOTE: A <see cref="View" /> binding a descendant <see cref="View" /> will call this method without calling <see cref="Bind(object)" /> for performance reasons. 
+    /// <para>NOTE: When overridden, this base method should be called first.</para>
     /// </remarks>
-    protected virtual void ViewBind(View view, object model, Transform node, Dictionary<Transform, Binding[]> performanceCache = null)
+    protected virtual void OnTransformParentChanged() 
     {
-      // TODO: Performance pass - Find a way to cache gameobject hierarchy and stay in sync with fewer calls to GetComponentsInChildren
-      if ((performanceCache??=GetComponentsInChildren<Binding>(includeInactive: true).GroupBy(b => b?.transform).ToDictionary(g => g.Key, g => g.ToArray()))
-        .TryGetValue(node, out var bindings)) 
-      { 
-        var notme = bindings.Where(b => b != view).ToArray();
-        var branch = notme.OfType<View>().FirstOrDefault();
-        if (branch != null) { branch.ViewBind(branch, branch.Select(model), node, performanceCache); return; }
-        foreach (var binding in notme) { binding.Bind(model); } 
-        performanceCache.Remove(node);
-      }
-      foreach (var child in node.transform.Cast<Transform>().ToArray()) { ViewBind(view, model, child, performanceCache); } 
+      _parent?.Detatch(this);
+      (_parent = transform.parent?.GetComponentInParent<View>())?.Branch(this);
     }
+    /// <summary>
+    /// Triggers view management tasks.
+    /// </summary>
+    /// <remarks>
+    /// <para>NOTE: When overridden, this base method should be called first.</para>
+    /// </remarks>
+    protected virtual void Awake() 
+    {
+      InitializeScope();
+      (_parent = transform.parent?.GetComponentInParent<View>())?.Branch(this);
+    }
+    /// <summary>
+    /// Scans the <see cref="View" />s descendants for <see cref="Binding" />s and initializes the scope.
+    /// </summary>
+    /// <param name="view">The view to be configured.</param>
+    /// <returns>The new scope of this <see cref="View" /></returns>
+    protected IEnumerable<Binding> InitializeScope() 
+    {
+      var descendants = GetComponentsInChildren<Binding>(includeInactive: true).Where(v => v != this);
+      return _scope = descendants.Except(descendants.OfType<View>().SelectMany(v => v)).ToArray();
+    }
+    /// <summary>
+    /// Removes the branch and its scope from this <see cref="View" />.
+    /// </summary>
+    /// <param name="branch">The <see cref="View" /> to remove.</param>
+    /// <returns>The new scope of this <see cref="View" /></returns>
+    protected IEnumerable<Binding> Detatch(View branch) => _scope = _scope.Except(Yield(branch)).ToArray();
+    /// <summary>
+    /// Removes the branch's scope and adds the branch to this <see cref="View" />s scope.
+    /// </summary>
+    /// <param name="branch">The <see cref="View" /> to branch</param>
+    /// <returns>The new scope of this <see cref="View" /></returns>
+    protected IEnumerable<Binding> Branch(View branch) => _scope = _scope.Except(branch).Union(Yield(branch)).ToArray();
   }
 }

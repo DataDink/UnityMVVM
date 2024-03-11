@@ -1,21 +1,37 @@
 using System;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityMVVM.Base;
 
 namespace UnityMVVM
 {
   /// <summary>
-  /// A <see cref="View"> that scopes this <see cref="GameObject"> to a descendant model using a <see cref="Selector">.
+  /// A <see cref="View"> that scopes this <see cref="GameObject"> to a descendant model using a <see cref="Binding.Selector">.
   /// </summary>
-  [Serializable]
+  /// <example>
+  /// <para>NOTE: This is typically configured in the Unity editor.</para>
+  /// <code>
+  /// var gameobject = new GameObject();
+  /// var view = gameobject.AddComponent&lt;ViewBinding&gt;();
+  /// view.Binding = "model.application.main";
+  /// view.Bind(model);
+  /// </code>
+  /// </example>
   public class ViewBinding : View
   {
     /// <summary>
-    /// The <see cref="Selector"> that selects the model to be bound to this <see cref="View">.
+    /// The <see cref="Binding.Selector"> that selects the model to be bound to this <see cref="View">.
     /// </summary>
-    [SerializeField] public Selector Source;
+    /// <example>
+    /// <para>NOTE: This is typically configured in the Unity editor.</para>
+    /// <code>
+    /// var gameobject = new GameObject();
+    /// var view = gameobject.AddComponent&lt;ViewBinding&gt;();
+    /// view.Binding = "model.application.main";
+    /// view.Bind(model);
+    /// </code>
+    /// </example>
+    [SerializeField] public Selector Binding;
     /// <inheritdoc />
-    protected override object Select(object model) { return Source == null ? model : Source.Select(model); }
+    public override void Bind(object model) { base.Bind(Binding.Select(model)); }
   }
 }

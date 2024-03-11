@@ -44,9 +44,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 043bfcf0641734de1802243d927ba800, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TransformParent: {fileID: 0}
+  Layout: {fileID: 0}
   Name:
     Path: Model
-  Source:
+  Binding:
     Path: Contents
 --- !u!1 &6445461946714296195
 GameObject:
